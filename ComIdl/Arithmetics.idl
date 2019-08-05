@@ -1,0 +1,50 @@
+import "unknwn.idl";
+
+[
+  local,
+  object,
+  uuid(E9E40097-EBBC-4A42-9D0C-FC9AC258436C),
+  helpstring("IArithmetics allows you to do simple math"),
+  oleautomation
+]
+interface IArithmetics : IUnknown
+{
+  [helpstring("Do addition op")] HRESULT Add( [in] long a, [in] long b, [out, retval] long* res );
+  [helpstring("Do subtractiop op")] HRESULT Sub( [in] long a, [in] long b, [out, retval] long* res );
+  [helpstring("Do multiplation op")] HRESULT Mul( [in] long a, [in] long b, [out, retval] long* res );
+  [helpstring("Do division op")] HRESULT Div( [in] long a, [in] long b, [out, retval] long* res );
+};
+
+[
+  local,
+  object,
+  uuid(AC7BC140-FD94-4C46-9462-5664C6930064),
+  oleautomation
+]
+interface IResultCallback : IUnknown
+{
+  HRESULT GotResult(long result);
+};
+
+
+[
+  uuid(E32FD000-59CF-46D8-9CA8-B3A85F4997B3),
+  version(0.1),
+  helpstring("Arithmetics library")
+]
+library ArithmeticsLibrary
+{
+  importlib("stdole32.tlb");
+
+  interface IArithmetics;
+  interface IResultCallback;
+
+  [
+    uuid(76D4C6D2-4619-4A8F-AD88-5D86E9C0C0D6)
+  ]
+  coclass CoArithmetics
+  {
+    [default] interface IArithmetics;
+    [source] interface IResultCallback;
+  };
+};
